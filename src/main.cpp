@@ -24,7 +24,7 @@ void displayGlitch()
 
 void displayLoadingBar(boolean updateProgress)
 {
-  static int loadingProgress = 0;
+  static uint32_t loadingProgress = 0;
 
   display.fillRect(65, 19, 7, 7, SSD1306_WHITE);
   display.fillRect(65, 10, 7, 7, SSD1306_WHITE);
@@ -45,13 +45,49 @@ void displayLoadingBar(boolean updateProgress)
     loadingProgress++;
 }
 
-void displayEyes()
+
+void displayError()
 {
-  display.fillCircle(32, 32, 6, SSD1306_WHITE);
+  static uint32_t animationFrame = 0;
 
+  if (animationFrame % 4 < 2)
+  {
 
+   display.setTextSize(2);
+  display.setCursor(10, 28);
+
+  display.setTextColor(WHITE);
+  display.println("ERROR !!!");
+  }
+  animationFrame++;
 }
 
+void displayEyes()
+{
+  static uint32_t animationFrame = 0;
+  
+  const int LeftEyeSize[] = {10, 10, 10, 10, 10, 9, 8, 7, 6, 5, 4, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 9, 8, 7, 6, 5, 4, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0, 10, 10, 10, 0, 10, 0, 10, 0, 10, };
+  const int RightEyeSize[] = {10, 10, 10, 10, 10, 9, 8, 7, 6, 5, 4, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 9, 8, 7, 6, 5, 4, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 0, 0, 10, 10, 0, 0, 0, 10, 0, 10, 0, 10, 0, }; // prettier-ignore
+  const int LeftEyeOffsetX[] = {0, 0, 0, 0, 0, 0, 0, -1, -1, -2, -2, -3, -3, -3, -3, -3, -3, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -3, -3, -3, -3, -3, -3, -3, -2, -2, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0};
+  const int RightEyeOffsetX[] = {0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, -1, -1, -2, -2, -3, -3, -3, -3, -3, -3, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -3, -3, -3, -3, -3, -3, -3, -2, -2, -1, -1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0};
+  const int LeftEyeOffsetY[] = {0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0,0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0,  -1, -1, -2, -2, -3, -3, -3, -3, -3, -3, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -3, -3, -3, -3, -3, -3, -3, -2, -2, -1, -1, 0 };
+  const int RightEyeOffsetY[] = {0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0,0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 3, 3, 3, 2, 2, 2, 1, 1, 1, 0, 0, 0, 0, 0, 0,0, 0, 0, 0, 0, 0, 0, 0, 0,0, 0, 0, 0,  -1, -1, -2, -2, -3, -3, -3, -3, -3, -3, -4, -4, -4, -4, -4, -4, -4, -4, -4, -4, -3, -3, -3, -3, -3, -3, -3, -2, -2, -1, -1, 0 };
+
+
+  const int LeftEyeSizeLength = sizeof(LeftEyeSize) / sizeof(int);
+  const int RightEyeSizeLength = sizeof(RightEyeSize) / sizeof(int);
+  const int LeftEyeOffsetXLength = sizeof(LeftEyeOffsetX) / sizeof(int);
+  const int RightEyeOffsetXLength = sizeof(RightEyeOffsetX) / sizeof(int);
+  const int LeftEyeOffsetYLength = sizeof(LeftEyeOffsetY) / sizeof(int);
+  const int RightEyeOffsetYLength = sizeof(RightEyeOffsetY) / sizeof(int);
+
+  display.fillCircle(32, 32, 17, SSD1306_WHITE);
+  display.fillCircle(32 + LeftEyeOffsetX[animationFrame % LeftEyeOffsetXLength], 32 + LeftEyeOffsetY[animationFrame % LeftEyeOffsetYLength], LeftEyeSize[animationFrame % LeftEyeSizeLength], SSD1306_BLACK);
+
+  display.fillCircle(96, 32, 17, SSD1306_WHITE);
+  display.fillCircle(96 + RightEyeOffsetX[animationFrame % RightEyeOffsetXLength], 32+ RightEyeOffsetY[animationFrame % RightEyeOffsetYLength], RightEyeSize[animationFrame % RightEyeSizeLength], SSD1306_BLACK);
+  animationFrame++;
+}
 
 void setup()
 {
@@ -74,12 +110,8 @@ void setup()
   // Show initial display buffer contents on the screen --
   // the library initializes this with an Adafruit splash screen.
   display.display();
-  display.clearDisplay();
 
-  display.println("Impossible to connect WiFi network, go to deep sleep");
-  displayEyes();
-  display.display();
-  delay(3000);
+
 
   for (int i = 0; i < 100; i++)
   {
@@ -89,7 +121,7 @@ void setup()
       displayLoadingBar(false);
     else
       displayLoadingBar(true);
-    if (i % 13 < 3)
+    if (i % 21 < 3)
       displayGlitch();
     display.display();
     delay(100);
@@ -103,5 +135,23 @@ void setup()
 
 void loop()
 {
+  static uint32_t i = 0;
+
+    display.clearDisplay();
+
+
+    if (i % 200 < 40)
+      displayError();
+    else
+      displayEyes();
+    if (i % 72 < 3)
+      displayGlitch();
+    display.display();
+    
+    display.display();
+
+    delay(100);
+
+i++;
   // put your main code here, to run repeatedly:
 }
